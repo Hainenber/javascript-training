@@ -100,7 +100,7 @@ class BinarySearchTree {
         if (node !== root) {
             // If either left or right node's is missing then the node of interest is parental to a leaf node, so we can link the leaf to its grandparent node to perform a deletion
             // Left node of the intenal one is missing
-            if (node["left"] == null) {
+            if (node["left"] === null) {
                 if (x <= parent["value"]) {
                     parent["left"] = node["right"]
                 } else {
