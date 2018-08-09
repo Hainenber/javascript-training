@@ -24,5 +24,18 @@ function breadth_first_search(graph) {
             }
         }
     }
+    return parent 
 }
 
+function finding_path(start, end, parent) {
+    let current = end
+    let passing_nodes = new Array()
+    while (current !== start) {
+        passing_nodes.push(current)
+        current = parent[current]
+    }
+    passing_nodes.push(start)
+    return passing_nodes.reverse().join('->')
+}
+
+let parent = breadth_first_search(graph)
