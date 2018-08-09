@@ -1,8 +1,9 @@
 const fs = require('fs')
 
 module.exports = class Graph {
-    constructor(path) {
+    constructor(path, directed = false) {
         this.path = path
+        this.directed = directed
         this.buildGraph()
     }
 
@@ -38,9 +39,12 @@ module.exports = class Graph {
                 }, [])
             } else {
                 let [start_node, end_node] = line.split(" ").map(i => Math.trunc(i))
-                // Populate the adjacency matrix
-                adjacency_matrix[start_node][end_node] = 1
-                // Populate the adjacency list
+                // Populate the adjacency matrix and list in two cases of undirected and directed
+                if (!this.directed) {
+                    adjacency_matrix[start_node][end_node] = 1
+                    adjacency_list[end_node].push(start_node)
+                }
+                adjacency_matrix[end_node][start_node] = 1
                 adjacency_list[start_node].push(end_node)
             }
             count++
