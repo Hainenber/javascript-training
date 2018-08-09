@@ -16,7 +16,7 @@ module.exports = class Graph {
     }
 
     buildGraph() {
-        const file = fs.readFileSync('./graph.txt', {encoding: 'utf-8'}).split("\n")
+        const file = fs.readFileSync(this.path, {encoding: 'utf-8'}).split("\n")
         let adjacency_matrix
         let adjacency_list
         let vertices

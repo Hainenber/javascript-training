@@ -1,6 +1,6 @@
-const Graph = require('./graph.js')
+const Graph = require(`${__dirname}/graph.js`)
 
-let graph = new Graph("graph.txt").getAdjacencyList()
+let graph = new Graph(`${__dirname}/graph.txt`).getAdjacencyList()
 
 function breadth_first_search(graph) {
     let first_element = graph.filter(eles => eles.length > 0)[0][0]
