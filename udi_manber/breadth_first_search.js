@@ -5,7 +5,9 @@ const Graph = require(`${__dirname}/graph.js`)
 let graph = new Graph(`${__dirname}/graph.txt`).getAdjacencyList()
 
 // Breadth-first-search
-function breadth_first_search(graph, input_element, input_parent, input_undiscovered) {
+function breadth_first_search(graph,
+        input_element, input_parent, input_undiscovered, input_processed,
+        process_vertex_early, process_edge, process_vertex_late) {
     // Pick the first, non-null element to initiate searching
     let first_element = (input_element) ? input_element : graph.filter(eles => eles.length > 0)[0][0]
     // Pointer for currently iterating element in the later loop
@@ -14,6 +16,7 @@ function breadth_first_search(graph, input_element, input_parent, input_undiscov
     // Initiate two arrays to register undiscovered nodes and processed node's parent
     let undiscovered = (input_undiscovered) ? input_undiscovered : Array(graph.length).fill(false)
     let parent = (input_parent) ? input_parent : Array(graph.length).fill(null) 
+    let processed = (input_processed) ? input_processed : Array(graph.length).fill(false)
     // Create a queue
     let queue = new Array()
 
@@ -26,8 +29,15 @@ function breadth_first_search(graph, input_element, input_parent, input_undiscov
     while (queue.length > 0) {
         // Dequeue to get the current element
         current_element = queue.shift()
+        // Process the node first time seeing it
+        process_vertex_early(current_element)
+        processed[current_element] = true
         // Iterate over its adjacent nodes
         for (let adjacent_vertex of graph[current_element]) {
+            // For nodes that are enqueued already but not yet to fully discover their adjacent nodes
+            if (!processed[adjacent_vertex]) {
+                process_edge(current_element, adjacent_vertex)
+            }
             // For undiscovered adjacent nodes
             if (!undiscovered[adjacent_vertex]) {
                 // Mark them as "discovered", i.e true
@@ -37,6 +47,8 @@ function breadth_first_search(graph, input_element, input_parent, input_undiscov
                 // Enqueue the element to further search
                 queue.push(adjacent_vertex)
             }
+            // Process the currently iterating element when all of its adjacent nodes have already enqueued 
+            process_vertex_late(current_element)
         }
     }
     // Return
