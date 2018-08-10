@@ -60,3 +60,19 @@ function finding_path(start, end, parent) {
     // Return
     return passing_nodes.reverse().join('->')
 }
+
+function connected_components(graph) {
+    let parent = Array(graph.length).fill(null)
+    let undiscovered = Array(graph.length).fill(false)
+    let undiscovered_indices = [...Array(graph.length).keys()].splice(1)
+    let components = 0
+
+    for (let index of undiscovered_indices) {
+        if (!undiscovered[index]) {
+            components += 1;
+            ({parent, undiscovered} = breadth_first_search(graph, index, parent, undiscovered));
+        }
+    }
+
+    return components
+}
