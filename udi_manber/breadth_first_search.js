@@ -7,7 +7,7 @@ let graph = new Graph(`${__dirname}/graph.txt`).getAdjacencyList()
 // Breadth-first-search
 function breadth_first_search(graph,
         input_element, input_parent, input_undiscovered, input_processed,
-        process_vertex_early, process_edge, process_vertex_late) {
+        process_vertex_early=function() {}, process_edge=function() {}, process_vertex_late=function() {}) {
     // Pick the first, non-null element to initiate searching
     let first_element = (input_element) ? input_element : graph.filter(eles => eles.length > 0)[0][0]
     // Pointer for currently iterating element in the later loop
